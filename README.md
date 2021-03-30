@@ -2,7 +2,7 @@
 ## Control de versiones
 ### Comparando archivos
 
-```
+```python
 diff rearrange1.py rearrange2.py
 
 Resultado:
