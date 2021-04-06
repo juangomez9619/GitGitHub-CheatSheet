@@ -378,3 +378,82 @@ En caso de querer abortar un intento de fusión:
 ```
 git merge --abort
 ```
+
+# GitHub
+## Introducción
+Para obtener una copia local de un repositorio remoto:
+```
+git clone <repo_url>
+```
+## Usando un repositorio remoto
+Su configuración puede verse así:
+```
+git remote -v
+```
+Se puede ver información más detallada:
+```
+git remote show origin
+```
+Las ramas del repositorio remoto se pueden ver con:
+```
+git branch -r
+```
+
+Como ejemplo, se modifica el repositorio remoto, agregando un nuevo archivo. git remote show origin muestra como nuestro repositorio local está desactualizado:
+```
+λ git remote show origin
+* remote origin
+  Fetch URL: https://github.com/juangomez9619/healt_checks_2.git
+  Push  URL: https://github.com/juangomez9619/healt_checks_2.git
+  HEAD branch: main
+  Remote branch:
+    main tracked
+  Local branch configured for 'git pull':
+    main merges with remote main
+  Local ref configured for 'git push':
+    main pushes to main (local out of date)
+```
+
+Para ver los nuevos commit realizados en el repo remoto:
+```
+git fetch
+```
+En este punto, git status muestra que hay commits que no se tienen en el repositorio local. Para actualizar el repo local, de la forma fast-forward (de ser posible) se hace con:
+```
+git merge origin
+```
+Existe un comando que realiza estas 2 operaciones:
+```
+git pull
+```
+
+Ahora, con una rama añadida al repositorio remoto, al correr git pull se tiene:
+```
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 743 bytes | 25.00 KiB/s, done.
+From https://github.com/juangomez9619/healt_checks_2
+ * [new branch]      experimental -> origin/experimental
+Already up to date.
+```
+La nueva rama del remoto aún no tiene una rama local asiganada. Para esto se crea una rama con el mismo nombre:
+```
+git checkout <experimental_remote_branch_name>
+M       README.md
+Branch 'experimental' set up to track remote branch 'experimental' from 'origin'.
+```
+
+## Resolviendo conflictos
+### El proceso pull-merge-push
+
+1. Siempre es necesario en primer lugar actualizar el repositorio local con los nuevos cambios del repositorio remoto (git pull).
+2. Si se genera un conflicto, es necesario editar el cambio que genera el problema para poder continuar con el merge.
+3. Una vez solucionado, se añade el archivo y se hace el commit.
+4. git push para enviar nuestros cambios al repo remoto.
+
+Para enviar una rama distinta  a la maestra al repo remoto:
+```
+git push -u origin <branch_name>
+```
